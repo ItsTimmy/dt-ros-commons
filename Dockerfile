@@ -46,6 +46,12 @@ RUN . /opt/ros/${ROS_DISTRO}/setup.sh && \
   catkin build \
     --workspace ${CATKIN_WS_DIR}/
 
+# copy environment
+COPY assets/environment.sh /environment.sh
+
+# create default process ID file
+RUN echo 1 > /process.pid
+
 # configure entrypoint
 COPY assets/entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
