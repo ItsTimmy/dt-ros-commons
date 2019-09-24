@@ -6,8 +6,15 @@ ARG MAJOR=daffy
 ARG ROS_DISTRO=kinetic
 ARG BASE_TAG=${MAJOR}-${ARCH}
 
+# open up dt-commons so that we can copy stuff
+FROM duckietown/dt-commons:${MAJOR}-${ARCH} AS dt-commons
+
 # define base image
 FROM duckietown/dt-ros-${ROS_DISTRO}-base:${BASE_TAG}
+
+# copy dt-commons environment
+COPY --from=dt-commons /environment.sh /environment.sh
+COPY --from=dt-commons /process.pid /process.pid
 
 # configure environment
 ENV SOURCE_DIR /code
